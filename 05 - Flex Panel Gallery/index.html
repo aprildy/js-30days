@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Flex Panels 💪</title>
+  <title>Flex Panels</title>
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -41,6 +42,10 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex:1;
+      display: flex;
+      justify-content:center;
+      flex-direction:column;
     }
 
 
@@ -54,8 +59,24 @@
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+        display: flex;
+        flex: 1 0 auto;
+        justify-content:center;
+        align-items:center;
+        cursor: pointer;
     }
-
+    .panel > *:first-child {
+        transform: translateY(-100%);
+    }
+    .panel >*:last-child {
+        transform: translateY(100%);
+    }
+    .panel.open-active > *:first-child {
+        transform: translateY(0);
+    }
+    .panel.open-active >*:last-child {
+        transform: translateY(0);
+    }
     .panel p {
       text-transform: uppercase;
       font-family: 'Amatic SC', cursive;
@@ -68,6 +89,7 @@
 
     .panel.open {
       font-size:40px;
+      flex:5;
     }
 
   </style>
@@ -102,7 +124,20 @@
   </div>
 
   <script>
-
+    const panels = document.querySelectorAll('.panel');
+    //Adding .open class
+    function toggleOpen() {
+        this.classList.toggle('open');
+    }
+    //Adding .open-active class
+    function toggleActive(e) {
+        //console.log(e.propertyName);
+         if (e.propertyName.includes('flex')) {
+             this.classList.toggle('open-active');
+         }
+    }
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
   </script>
 
 
